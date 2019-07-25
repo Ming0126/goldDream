@@ -53,7 +53,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="purcheDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="purcheDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="purche">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -71,6 +71,17 @@ export default {
   },
   methods: {
     handleClick() {},
+    purche() {
+      this.purcheDialogVisible = false;
+      this.fetch
+        .post('/purche', {
+          amount: this.amount,
+          product: this.companyId,
+        })
+        .then(res => {
+          console.log(res);
+        });
+    },
     computeTotal() {
       if (this.amount !== '') {
         this.total = parseFloat(this.amount) * parseFloat(this.price);
