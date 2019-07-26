@@ -2,7 +2,7 @@
   <div id="app">
     <Header></Header>
     <transition class="app-main-content" name="fade">
-      <router-view class="content" />
+      <router-view class="page-content" />
     </transition>
     <Footer></Footer>
   </div>
@@ -15,6 +15,7 @@ export default {
     Header,
     Footer,
   },
+  mounted() {},
 };
 </script>
 
@@ -25,27 +26,18 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  min-height: 100%;
 
-  .content {
+  .page-content {
     width: 100%;
-    height: calc(100% - 61px - 19px);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+      sans-serif;
     /* font-family: Arial, Helvetica, sans-serif; */
     font-size: 16pt;
     color: #003366;
-  }
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+    padding-top: 61px;
+    padding-bottom: 30px;
   }
 }
 </style>

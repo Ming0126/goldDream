@@ -1,6 +1,34 @@
-body,
 html {
-  font-size: 14px;
+  font-size: 625%;
   height: 100%;
   margin: 0px;
+  body {
+    height: 100%;
+    margin: 0px;
+  }
+}
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+body > div.el-menu--horizontal {
+  width: 1rem;
+  .el-menu {
+    .el-menu-item {
+      font-size: 0.16rem;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  html {
+    font-size: 450% !important;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  html {
+    font-size: 300% !important;
+  }
 }

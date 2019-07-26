@@ -11,8 +11,13 @@ export default {};
 <style lang="less" scoped>
 .footer {
   width: 100%;
-  height: 30px;
   border-radius: 10px;
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .footerText {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center;

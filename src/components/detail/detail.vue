@@ -8,7 +8,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="基金净值" name="netValue">
           <div class="tab-content-title">基金净值</div>
-          <div id="net-value-echart" style="height: 450px;width: 1100px"></div>
+          <div id="net-value-echart" style="height: 4.50rem;width: 11rem"></div>
         </el-tab-pane>
         <el-tab-pane label="基金信息" name="info">
           <div class="tab-content-title">基金信息</div>
@@ -26,6 +26,28 @@
         </el-tab-pane>
         <el-tab-pane label="基金经理" name="manager">
           <div class="tab-content-title">基金经理</div>
+          <div class="manager-row">
+            <img src="~@/assets/bu.jpg" />
+            <p>
+              <span>卜迪先生：</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;中国国籍，硕士研究生。
+              1997年至2001年在中国石油大学计算数学及其应用软件专业学习，获学士学位。
+              2001年至2004年在广州大学应用数学系学习，获硕士学位。
+              2003年12月至2010年8月在Morningstar晨星中国基金研究中心工作，
+              任量化组负责人兼资深分析师。2010年8月31日加入博时基金管理有限公司，历任股票投资部量化分析师兼任基金经理助理、
+              博时标普500指数基金基金经理助理和博时深证基本面200ETF基金及其联接基金基金经理助理，
+              博时特许价值股票基金基金经理(2013年9月13日至2015年2月9日)、
+              博时招财一号保本基金基金经理（2015年4月29日至2016年5月30日）、
+              博时中证淘金大数据100基金基金经理（2015年5月4日至2016年5月30日）、
+              博时沪深300指数基金基金经理（2015年5月5日至2016年5月30日）。
+              现任博时深证基本面200ETF基金兼博时深证基本面200ETF联接基金（2012年11月13日至今）、
+              上证企债30ETF基金（2013年7月11日至今）、
+              博时证券保险指数分级基金（2015年5月19日至今）、
+              博时黄金ETF基金（2015年10月8日至今）、博时上证50ETF基金（2015年10月8日至今）、
+              博时上证50ETF联接基金（2015年10月8日至今）、博时银行分级基金(2015年10月8日至今)、
+              博时黄金ETF联接基金（2016年5月27日至今）的基金经理。
+            </p>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="费用信息" name="fee">
           <div class="tab-content-title">费用信息</div>
@@ -34,20 +56,14 @@
             <el-table-column prop="value"></el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane label="基金公告" name="notice">基金公告</el-tab-pane>
       </el-tabs>
     </div>
-    <el-dialog
-      :title="companyName"
-      :visible.sync="purcheDialogVisible"
-      width="50%"
-      :before-close="handleClose"
-    >
-      <el-form :inline="true" label-width="90px" label-position="left">
-        <el-form-item label="买入克数">
+    <el-dialog :title="companyName" :visible.sync="purcheDialogVisible">
+      <el-form>
+        <el-form-item label="买入克数" :label-width="formLabelWidth">
           <el-input @blur="computeTotal" v-model="amount"></el-input>
         </el-form-item>
-        <el-form-item label="买入金额">
+        <el-form-item label="买入金额" :label-width="formLabelWidth">
           <el-input v-model="total" @blur="computeAmount"></el-input>
         </el-form-item>
       </el-form>
@@ -68,6 +84,7 @@ export default {
     this.infoTable = this.infoTables[this.companyId];
     this.companyName = this.infoTable[0].value;
     this.initEchart();
+    window.onresize = this.echart.resize;
   },
   methods: {
     handleClick() {},
@@ -99,7 +116,6 @@ export default {
       let data = this.formatEchartData(this.goldPrice);
       let date = data.map(item => item.name);
       let value = data.map(item => item.value);
-      console.log(data);
       let option = {
         title: {
           text: '',
@@ -149,6 +165,7 @@ export default {
 
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
+      this.echart = myChart;
     },
     formatEchartData(goldPrice) {
       let data = [];
@@ -165,6 +182,7 @@ export default {
   },
   data() {
     return {
+      echart: null,
       purcheDialogVisible: false,
       activeName: 'netValue',
       infoTable: [],
@@ -174,6 +192,7 @@ export default {
       amount: '',
       total: '',
       goldPrice: goldPrice.data,
+      formLabelWidth: '120px',
       payBackTable: [
         {
           name: '最近7天',
@@ -291,8 +310,26 @@ export default {
     .tab-content-title {
       margin-top: 30px;
     }
+    .manager-row {
+      display: flex;
+      img {
+        width: 120px;
+        height: 180px;
+        margin: 30px;
+        margin-top: 50px;
+      }
+      p {
+        font-size: 16px;
+        margin: 30px 0px;
+        span {
+          display: block;
+          font-size: 28px;
+        }
+      }
+    }
     #pane-netValue {
       display: flex;
+      flex-direction: column;
       #net-value-echart {
         div {
           width: 100% !important;
@@ -301,12 +338,11 @@ export default {
     }
   }
   .el-dialog {
-    width: 900px;
     .product-name {
       font-size: 24px;
     }
     .el-input {
-      width: 240px;
+      width: 3.3rem;
     }
   }
 }

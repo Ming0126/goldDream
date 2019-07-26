@@ -13,11 +13,6 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('./views/About.vue'),
-    },
-    {
       path: '/login',
       name: 'login',
       component: () => import('./components/login/login'),
@@ -26,6 +21,16 @@ export default new Router({
       path: '/detail',
       name: 'detail',
       component: () => import('./components/detail/detail'),
+    },
+    {
+      path: '/position',
+      name: 'position',
+      component: () => import('./components/position/position'),
+    },
+    {
+      path: '/record',
+      name: 'record',
+      component: () => import('./components/record/record'),
     },
     { path: '*', redirect: '/' },
   ],

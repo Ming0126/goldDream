@@ -85,6 +85,7 @@ export default {
   background-color: rgb(209, 43, 20);
   margin: 0px;
   display: flex;
+  padding-bottom: 70px;
   .info-panel {
     flex: 1;
     .info-wrapper {
