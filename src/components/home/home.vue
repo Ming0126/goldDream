@@ -1,18 +1,24 @@
 <template>
   <div class="detail-content">
-    <div v-for="(item, index) in products" :key="item.name" class="product">
-      <h4>{{ item.name }}</h4>
-      <div class="rate">
-        <span class="num">
-          {{ item.returnRate }}
-          <span class="percent">%</span>
-        </span>
-        今年以来收益率
+    <div class="product-wrap">
+      <div v-for="(item, index) in products" :key="item.name" class="product">
+        <h4>{{ item.name }}</h4>
+        <div class="rate">
+          <span class="num">
+            {{ item.returnRate }}
+            <span class="percent">%</span>
+          </span>
+          今年以来收益率
+        </div>
+        <div>{{ item.describe }}</div>
+        <el-button @click="goDetail(index)">详情</el-button>
       </div>
-      <div>{{ item.describe }}</div>
-      <el-button @click="goDetail(index)">详情</el-button>
     </div>
-    <div id="gold-price-echart" style="height: 4.50rem;width: 11rem"></div>
+    <hr style="width: 80%" />
+    <div class="chart-section">
+      <h2>近期价格走势</h2>
+      <div id="gold-price-echart" style="height: 4.50rem;width: 11rem"></div>
+    </div>
   </div>
 </template>
 
@@ -119,10 +125,13 @@ export default {
         date = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
         data.push({
           name: date,
-          value: parseInt(item[1]) / 1000,
+          value: (parseInt(item[1]) / 28.34) * 6.87,
         });
       }
-      return data;
+      return data
+        .reverse()
+        .slice(0, 90)
+        .reverse();
     },
   },
   components: {},
@@ -131,27 +140,37 @@ export default {
 
 <style lang="less" scoped>
 .detail-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  .product {
-    width: 500px;
+  .product-wrap {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 30px 0px;
-    div {
-      margin: 20px 0px;
-      font-size: 18px;
-    }
-    .rate {
-      .num {
-        font-size: 30px;
-        color: rgb(209, 43, 20);
-        .percent {
-          font-size: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    .product {
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px 0px;
+      padding: 0 0.5rem;
+      div {
+        margin: 20px 0px;
+        font-size: 18px;
+      }
+      .rate {
+        .num {
+          font-size: 30px;
+          color: rgb(209, 43, 20);
+          .percent {
+            font-size: 25px;
+          }
         }
       }
+    }
+  }
+  .chart-section {
+    padding: 0rem 1rem;
+    h2 {
+      font-size: 0.3rem;
+      padding-left: 1rem;
     }
   }
 }

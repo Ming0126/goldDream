@@ -27,7 +27,7 @@
         <el-menu-item index="5-1" style="width: 100px;">我的信息</el-menu-item>
         <el-menu-item index="5-2" style="width: 100px;">我的收益</el-menu-item>
         <el-menu-item index="5-3">
-          <router-link to="record" class="hidden-xs-only">交易记录</router-link>
+          <router-link to="record" style="width: 100px;">交易记录</router-link>
         </el-menu-item>
       </el-submenu>
     </el-menu-item>
