@@ -67,24 +67,7 @@ export default {
           },
         ],
       },
-      positionData: [
-        {
-          amount: '1',
-          companyId: '2',
-          name: '存金宝',
-          value: 295.882,
-          yesterdayProfit: 222,
-          totalProfit: 222,
-        },
-        {
-          amount: '1',
-          companyId: '1',
-          name: '博时黄金',
-          value: 295.882,
-          yesterdayProfit: 1,
-          totalProfit: 1,
-        },
-      ],
+      positionData: [],
     };
   },
   mounted() {
@@ -132,11 +115,7 @@ export default {
       ) {
         this.$alert('赎回克数不能大于已拥有克数！', '警告');
       } else {
-        console.log(
-          sessionStorage.getItem('userId'),
-          this.redemptionForm.companyId,
-          this.redemptionForm.redemptionAmount,
-        );
+        this.redemptionDialogVisible = false;
         this.fetch
           .post('/sell', {
             idCardNum: sessionStorage.getItem('userId'),
@@ -156,6 +135,7 @@ export default {
       this.companyName = row.name;
       this.companyId = row.companyId;
       vm.$emit('showPurchaseDialog');
+      this.queryData();
     },
     showRedemptionDialog(row) {
       console.log(row);
