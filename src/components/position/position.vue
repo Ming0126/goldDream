@@ -72,6 +72,9 @@ export default {
   },
   mounted() {
     this.queryData();
+    this.$on('purchaseSuccess', () => {
+      this.queryData();
+    });
   },
   methods: {
     queryData() {
@@ -135,7 +138,6 @@ export default {
       this.companyName = row.name;
       this.companyId = row.companyId;
       vm.$emit('showPurchaseDialog');
-      this.queryData();
     },
     showRedemptionDialog(row) {
       console.log(row);

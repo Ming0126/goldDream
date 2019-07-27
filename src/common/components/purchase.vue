@@ -91,6 +91,7 @@ export default {
         .then(res => {
           if (res.errCode == '200') {
             this.$message.success(res.errMsg);
+            vm.$emit('purchaseSuccess');
           } else {
             this.$message.error('未知错误');
           }
