@@ -11,7 +11,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="primary hidden-sm-and-down" @click="showPurchaseComp(scope.row)">补仓</el-button>
-            <el-button type="primary" @click="redemptionDialogVisible = true">赎回</el-button>
+            <el-button type="primary" @click="showRedemptionDialog">赎回</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -129,6 +129,7 @@ export default {
       this.companyId = row.companyId;
       vm.$emit('showPurchaseDialog');
     },
+    showRedemptionDialog(row) {},
   },
 };
 </script>

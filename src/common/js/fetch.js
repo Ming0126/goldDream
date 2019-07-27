@@ -3,7 +3,7 @@ import NProgress from 'nprogress';
 
 const config = {
   method: 'get',
-  baseURL: 'http://192.168.10.188:8080',
+  baseURL: 'http://localhost:8001',
   headers: {
     Accept: 'application/json;charset=utf-8',
     'Content-Type': 'application/json;charset=utf-8',
