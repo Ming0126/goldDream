@@ -1,5 +1,6 @@
 <template>
   <el-menu
+    id="my-menu"
     class="el-menu-demo"
     mode="horizontal"
     :background-color="login ? '#fff' : 'rgb(209, 43, 20)'"
@@ -59,7 +60,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.el-menu {
+#my-menu {
   position: fixed;
   top: 0;
   left: 0;
@@ -74,6 +75,9 @@ export default {
     .el-submenu__title {
       padding: 0px;
     }
+  }
+  .el-menu-item:hover {
+    background-color: rgb(209, 43, 20) !important;
   }
 }
 .user {

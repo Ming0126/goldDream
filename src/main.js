@@ -7,6 +7,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store/index';
 import fetch from './common/js/fetch';
+import currency from './common/js/util/currency';
 
 Vue.config.productionTip = false;
 
@@ -18,12 +19,7 @@ Vue.filter('capitalize', function(value) {
   value = value.toString();
   return value.charAt(0).toUpperCase() + value.slice(1);
 });
-Vue.filter('currency', value =>
-  value.toLocaleString('ayx', {
-    style: 'currency',
-    currency: 'CNY',
-  }),
-);
+Vue.filter('currency', currency);
 
 new Vue({
   router,

@@ -11,7 +11,7 @@
           今年以来收益率
         </div>
         <div>{{ item.describe }}</div>
-        <el-button @click="goDetail(index)">详情</el-button>
+        <el-button @click="goDetail(index, item.name)">详情</el-button>
       </div>
     </div>
     <hr style="width: 80%" />
@@ -32,23 +32,23 @@ export default {
       echart: null,
       products: [
         {
-          name: '博时黄金ETF',
+          name: '博时黄金',
           returnRate: '19.73',
           describe: '大牛基金经理',
         },
         {
-          name: '博时黄金基金2',
-          returnRate: '19.73',
+          name: '存金宝',
+          returnRate: '14.93',
           describe: '大牛基金经理',
         },
         {
-          name: '博时黄金基金3',
-          returnRate: '19.73',
+          name: '华安易富黄金',
+          returnRate: '16.48',
           describe: '大牛基金经理',
         },
         {
-          name: '博时黄金基金4',
-          returnRate: '19.73',
+          name: '易方达黄金',
+          returnRate: '17.34',
           describe: '大牛基金经理',
         },
       ],
@@ -59,8 +59,8 @@ export default {
     window.onresize = this.echart.resize;
   },
   methods: {
-    goDetail(index) {
-      this.$router.push({ path: '/detail', query: { num: index } });
+    goDetail(index, name) {
+      this.$router.push({ path: '/detail', query: { num: index, name: name } });
     },
     initEchart() {
       let myChart = echarts.init(document.getElementById('gold-price-echart'));

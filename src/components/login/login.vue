@@ -64,6 +64,7 @@ export default {
         })
         .then(res => {
           if (res.errCode == 200) {
+            sessionStorage.setItem('userId', res.idCardNum);
             this.$router.push('/home');
           }
         });

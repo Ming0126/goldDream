@@ -2,7 +2,7 @@
   <div class="detail">
     <div class="detail-header">
       <span>{{ companyName }}</span>
-      <el-button @click="purcheDialogVisible = true" type="primary">立即申购</el-button>
+      <el-button @click="showPurchaseComp" type="primary">立即申购</el-button>
     </div>
     <div class="detail-content">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -58,58 +58,28 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <el-dialog :title="companyName" :visible.sync="purcheDialogVisible">
-      <el-form>
-        <el-form-item label="买入克数" :label-width="formLabelWidth">
-          <el-input @blur="computeTotal" v-model="amount"></el-input>
-        </el-form-item>
-        <el-form-item label="买入金额" :label-width="formLabelWidth">
-          <el-input v-model="total" @blur="computeAmount"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="purcheDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="purche">确 定</el-button>
-      </span>
-    </el-dialog>
+    <Purchase :companyName="companyName" :companyId="companyId"></Purchase>
   </div>
 </template>
 
 <script>
 import echarts from 'echarts';
 import goldPrice from '@/data/goldPrice.json';
+import Purchase from '@/common/components/purchase';
+import vm from '@/common/js/bus.js';
+
 export default {
   mounted() {
     this.companyId = this.$route.query.num;
     this.infoTable = this.infoTables[this.companyId];
-    this.companyName = this.infoTable[0].value;
+    this.companyName = this.$route.query.name;
     this.initEchart();
     window.onresize = this.echart.resize;
   },
   methods: {
     handleClick() {},
-    purche() {
-      this.purcheDialogVisible = false;
-      this.fetch
-        .post('/purche', {
-          amount: this.amount,
-          product: this.companyId,
-        })
-        .then(res => {
-          console.log(res);
-        });
-    },
-    computeTotal() {
-      if (this.amount !== '') {
-        this.total = parseFloat(this.amount) * parseFloat(this.price);
-        this.total = this.total.toFixed(2);
-      }
-    },
-    computeAmount() {
-      if (this.total !== '') {
-        this.amount = parseFloat(this.total) / parseFloat(this.price);
-        this.amount = this.amount.toFixed(2);
-      }
+    showPurchaseComp() {
+      vm.$emit('showPurchaseDialog');
     },
     initEchart() {
       let myChart = echarts.init(document.getElementById('net-value-echart'));
@@ -163,7 +133,6 @@ export default {
         ],
       };
 
-      // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
       this.echart = myChart;
     },
@@ -180,19 +149,19 @@ export default {
       return data;
     },
   },
+  components: {
+    Purchase,
+  },
   data() {
     return {
       echart: null,
-      purcheDialogVisible: false,
       activeName: 'netValue',
       infoTable: [],
       companyId: '',
       companyName: '',
-      price: 314.42,
-      amount: '',
-      total: '',
+
       goldPrice: goldPrice.data,
-      formLabelWidth: '120px',
+
       payBackTable: [
         {
           name: '最近7天',
@@ -234,7 +203,7 @@ export default {
         [
           {
             name: '基金名称',
-            value: '博时黄金ETF',
+            value: '博时黄金',
           },
           {
             name: '基金代码',
@@ -248,7 +217,7 @@ export default {
         [
           {
             name: '基金名称',
-            value: '国泰黄金ETF',
+            value: '存金宝',
           },
           {
             name: '基金代码',
@@ -262,7 +231,7 @@ export default {
         [
           {
             name: '基金名称',
-            value: '华夏上证50ETF',
+            value: '华安易富黄金',
           },
           {
             name: '基金代码',
@@ -276,7 +245,7 @@ export default {
         [
           {
             name: '基金名称',
-            value: '南方中证500ETF',
+            value: '易方达黄金',
           },
           {
             name: '基金代码',
@@ -335,14 +304,6 @@ export default {
           width: 100% !important;
         }
       }
-    }
-  }
-  .el-dialog {
-    .product-name {
-      font-size: 24px;
-    }
-    .el-input {
-      width: 3.3rem;
     }
   }
 }

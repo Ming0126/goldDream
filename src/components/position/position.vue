@@ -6,54 +6,49 @@
         <el-table-column label="基金名称" prop="name"></el-table-column>
         <el-table-column label="持有克数" prop="amount"></el-table-column>
         <el-table-column label="黄金价值" prop="value"></el-table-column>
-        <el-table-column label="昨日收益" prop="yestoryIncome"></el-table-column>
-        <el-table-column label="累计收益" prop="totalIncome"></el-table-column>
+        <el-table-column label="昨日收益" prop="yesterdayProfit"></el-table-column>
+        <el-table-column label="累计收益" prop="totalProfit"></el-table-column>
         <el-table-column label="操作">
-          <div>
-            <el-button type="primary hidden-sm-and-down" @click="purcheDialogVisible = true">补仓</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary hidden-sm-and-down" @click="showPurchaseComp(scope.row)">补仓</el-button>
             <el-button type="primary" @click="redemptionDialogVisible = true">赎回</el-button>
-          </div>
+          </template>
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog :title="companyName" :visible.sync="purcheDialogVisible">
-      <el-form>
-        <el-form-item label="买入克数" :label-width="formLabelWidth">
-          <el-input @blur="computeTotal" v-model="amount"></el-input>
-        </el-form-item>
-        <el-form-item label="买入金额" :label-width="formLabelWidth">
-          <el-input v-model="total" @blur="computeAmount"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="purcheDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="purche">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="赎回" :visible.sync="redemptionDialogVisible">
-      <el-form :model="form">
+    <el-dialog title="赎回" :visible.sync="redemptionDialogVisible" ref="redemptionForm">
+      <el-form :model="redemptionForm" :rules="rules">
         <el-form-item label="基金名称" :label-width="formLabelWidth">
           <el-input autocomplete="off" v-model="companyName" disabled></el-input>
         </el-form-item>
-        <el-form-item label="赎回金额" :label-width="formLabelWidth">
-          <el-input autocomplete="off" v-model="redemptionAmount"></el-input>
+        <el-form-item label="赎回金额" :label-width="formLabelWidth" prop="redemptionAmount">
+          <el-input autocomplete="off" v-model="redemptionForm.redemptionAmount"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="redemptionDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="redemptionDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="redemptionAction">确 定</el-button>
       </div>
     </el-dialog>
+    <Purchase :companyName="companyName" :companyId="companyId"></Purchase>
   </div>
 </template>
 
 <script>
+import Purchase from '@/common/components/purchase';
+import vm from '@/common/js/bus.js';
+
 export default {
+  components: {
+    Purchase,
+  },
   data() {
     return {
       purcheDialogVisible: false,
       redemptionDialogVisible: false,
-      redemptionAmount: '',
+      redemptionForm: {
+        redemptionAmount: '',
+      },
       formLabelWidth: '120px',
 
       companyName: '博时黄金',
@@ -61,93 +56,57 @@ export default {
       price: 314.42,
       amount: '',
       total: '',
+      rules: {
+        redemptionAmount: [
+          { required: true, message: '请输入要赎回的金额', trigger: 'change' },
+          {
+            pattern: /^[0-9]+\.?[0-9]*$/,
+            message: '请输入正确的金额',
+            trigger: 'change',
+          },
+        ],
+      },
       positionData: [
         {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
+          amount: '1',
+          companyId: '2',
+          name: '存金宝',
+          value: 295.882,
+          yesterdayProfit: 222,
+          totalProfit: 222,
         },
         {
+          amount: '1',
+          companyId: '1',
           name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
-        },
-        {
-          name: '博时黄金',
-          amount: '3.45',
-          value: '1048.24',
-          yestoryIncome: '3.45',
-          totalIncome: '87.42',
+          value: 295.882,
+          yesterdayProfit: 1,
+          totalProfit: 1,
         },
       ],
     };
+  },
+  mounted() {
+    this.fetch
+      .post('/queryUserHoldRecord', {
+        idCardNum: sessionStorage.getItem('userId'),
+      })
+      .then(res => {
+        if (res.errCode == '200') {
+          let positionData = [];
+          for (let item of res.myGoldHoldInfoList) {
+            positionData.push({
+              amount: item.holdAmount,
+              companyId: item.productType,
+              name: item.productName,
+              value: item.totalWorth,
+              yesterdayProfit: item.yesterdayProfit,
+              totalProfit: item.totalProfit,
+            });
+          }
+          this.positionData = positionData;
+        }
+      });
   },
   methods: {
     computeTotal() {
@@ -161,6 +120,14 @@ export default {
         this.amount = parseFloat(this.total) / parseFloat(this.price);
         this.amount = this.amount.toFixed(2);
       }
+    },
+    redemptionAction() {
+      this.fetch.post('/sell', {});
+    },
+    showPurchaseComp(row) {
+      this.companyName = row.name;
+      this.companyId = row.companyId;
+      vm.$emit('showPurchaseDialog');
     },
   },
 };
