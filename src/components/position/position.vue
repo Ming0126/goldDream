@@ -11,7 +11,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="primary hidden-sm-and-down" @click="showPurchaseComp(scope.row)">补仓</el-button>
-            <el-button type="primary" @click="showRedemptionDialog">赎回</el-button>
+            <el-button type="primary" @click="showRedemptionDialog(scope.row)">赎回</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -19,9 +19,9 @@
     <el-dialog title="赎回" :visible.sync="redemptionDialogVisible" ref="redemptionForm">
       <el-form :model="redemptionForm" :rules="rules">
         <el-form-item label="基金名称" :label-width="formLabelWidth">
-          <el-input autocomplete="off" v-model="companyName" disabled></el-input>
+          <el-input autocomplete="off" v-model="redemptionForm.companyName" disabled></el-input>
         </el-form-item>
-        <el-form-item label="赎回金额" :label-width="formLabelWidth" prop="redemptionAmount">
+        <el-form-item label="赎回克数" :label-width="formLabelWidth" prop="redemptionAmount">
           <el-input autocomplete="off" v-model="redemptionForm.redemptionAmount"></el-input>
         </el-form-item>
       </el-form>
@@ -51,6 +51,7 @@ export default {
       },
       formLabelWidth: '120px',
 
+      companyId: '',
       companyName: '博时黄金',
 
       price: 314.42,
@@ -87,28 +88,31 @@ export default {
     };
   },
   mounted() {
-    this.fetch
-      .post('/queryUserHoldRecord', {
-        idCardNum: sessionStorage.getItem('userId'),
-      })
-      .then(res => {
-        if (res.errCode == '200') {
-          let positionData = [];
-          for (let item of res.myGoldHoldInfoList) {
-            positionData.push({
-              amount: item.holdAmount,
-              companyId: item.productType,
-              name: item.productName,
-              value: item.totalWorth,
-              yesterdayProfit: item.yesterdayProfit,
-              totalProfit: item.totalProfit,
-            });
-          }
-          this.positionData = positionData;
-        }
-      });
+    this.queryData();
   },
   methods: {
+    queryData() {
+      this.fetch
+        .post('/queryUserHoldRecord', {
+          idCardNum: sessionStorage.getItem('userId'),
+        })
+        .then(res => {
+          if (res.errCode == '200') {
+            let positionData = [];
+            for (let item of res.myGoldHoldInfoList) {
+              positionData.push({
+                amount: item.holdAmount,
+                companyId: item.productType,
+                name: item.productName,
+                value: item.totalWorth,
+                yesterdayProfit: item.yesterdayProfit,
+                totalProfit: item.totalProfit,
+              });
+            }
+            this.positionData = positionData;
+          }
+        });
+    },
     computeTotal() {
       if (this.amount !== '') {
         this.total = parseFloat(this.amount) * parseFloat(this.price);
@@ -122,14 +126,44 @@ export default {
       }
     },
     redemptionAction() {
-      this.fetch.post('/sell', {});
+      if (
+        parseFloat(this.redemptionForm.amount) <
+        parseFloat(this.redemptionForm.redemptionAmount)
+      ) {
+        this.$alert('赎回克数不能大于已拥有克数！', '警告');
+      } else {
+        console.log(
+          sessionStorage.getItem('userId'),
+          this.redemptionForm.companyId,
+          this.redemptionForm.redemptionAmount,
+        );
+        this.fetch
+          .post('/sell', {
+            idCardNum: sessionStorage.getItem('userId'),
+            productType: this.redemptionForm.companyId,
+            sellAmount: this.redemptionForm.redemptionAmount,
+          })
+          .then(res => {
+            if (res.errCode == '200') {
+              this.queryData();
+            } else {
+              this.$message.error('赎回失败');
+            }
+          });
+      }
     },
     showPurchaseComp(row) {
       this.companyName = row.name;
       this.companyId = row.companyId;
       vm.$emit('showPurchaseDialog');
     },
-    showRedemptionDialog(row) {},
+    showRedemptionDialog(row) {
+      console.log(row);
+      this.redemptionDialogVisible = true;
+      this.redemptionForm.companyName = row.name;
+      this.redemptionForm.companyId = row.companyId;
+      this.redemptionForm.amount = row.amount;
+    },
   },
 };
 </script>
