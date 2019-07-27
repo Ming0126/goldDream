@@ -20,9 +20,6 @@ instance.interceptors.request.use(
   config => {
     NProgress.start();
     return config;
-    if (!sessionStorage.getItem('userId')) {
-      vm.$router.push('/login');
-    }
   },
   err => {
     return Promise.reject(err);
