@@ -28,7 +28,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => {
     NProgress.done(response.config.method, response.status);
-    return response.dada;
+    return response.data;
   },
   err => {
     return Promise.reject(err);
