@@ -6,11 +6,15 @@
         <el-table-column label="基金名称" prop="name"></el-table-column>
         <el-table-column label="持有克数" prop="amount"></el-table-column>
         <el-table-column label="黄金价值" prop="value"></el-table-column>
-        <el-table-column label="昨日收益" prop="yesterdayProfit"></el-table-column>
+        <el-table-column label="昨日收益" class="hidden-sm-and-down" prop="yesterdayProfit"></el-table-column>
         <el-table-column label="累计收益" prop="totalProfit"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary hidden-sm-and-down" @click="showPurchaseComp(scope.row)">补仓</el-button>
+            <el-button
+              type="primary "
+              class="hidden-md-and-down"
+              @click="showPurchaseComp(scope.row)"
+            >补仓</el-button>
             <el-button type="primary" @click="showRedemptionDialog(scope.row)">赎回</el-button>
           </template>
         </el-table-column>
@@ -67,7 +71,24 @@ export default {
           },
         ],
       },
-      positionData: [],
+      positionData: [
+        {
+          amount: '1',
+          companyId: '2',
+          name: '存金宝',
+          value: 295.882,
+          yesterdayProfit: 222,
+          totalProfit: 222,
+        },
+        {
+          amount: '1',
+          companyId: '1',
+          name: '博时黄金',
+          value: 295.882,
+          yesterdayProfit: 1,
+          totalProfit: 1,
+        },
+      ],
     };
   },
   mounted() {

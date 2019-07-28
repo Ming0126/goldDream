@@ -145,12 +145,12 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     .product {
-      width: 500px;
+      width: 300px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 30px 0px;
-      padding: 0 0.5rem;
+      margin: 0.3rem 0px;
+      padding: 0 1rem;
       div {
         margin: 20px 0px;
         font-size: 18px;
