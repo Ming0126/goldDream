@@ -15,7 +15,18 @@ export default {
     Header,
     Footer,
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener('resize', this.pageAdapt);
+  },
+  methods: {
+    pageAdapt() {
+      console.log(document.body.clientWidth);
+      let clientWidth = document.body.clientWidth;
+      console.log(document.querySelector('html').style.fontSize);
+      document.querySelector('html').style.fontSize = `${(625 * parseInt(clientWidth)) / 1440}%`;
+      console.log(document.querySelector('html').style.fontSize);
+    },
+  },
 };
 </script>
 
@@ -31,8 +42,7 @@ export default {
 
   .page-content {
     width: 100%;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
-      sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     /* font-family: Arial, Helvetica, sans-serif; */
     font-size: 16pt;
     color: #003366;

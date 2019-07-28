@@ -70,7 +70,7 @@ import vm from '@/common/js/bus.js';
 
 export default {
   mounted() {
-    this.companyId = this.$route.query.num;
+    this.companyId = parseInt(this.$route.query.num) + 1;
     this.infoTable = this.infoTables[this.companyId];
     this.companyName = this.$route.query.name;
     this.initEchart();

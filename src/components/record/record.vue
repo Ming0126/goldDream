@@ -14,34 +14,6 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog :title="companyName" :visible.sync="purcheDialogVisible">
-      <el-form>
-        <el-form-item label="买入克数" :label-width="formLabelWidth">
-          <el-input @blur="computeTotal" v-model="amount"></el-input>
-        </el-form-item>
-        <el-form-item label="买入金额" :label-width="formLabelWidth">
-          <el-input v-model="total" @blur="computeAmount"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="purcheDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="purche">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="赎回" :visible.sync="redemptionDialogVisible">
-      <el-form :model="form">
-        <el-form-item label="基金名称" :label-width="formLabelWidth">
-          <el-input autocomplete="off" v-model="companyName" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="赎回金额" :label-width="formLabelWidth">
-          <el-input autocomplete="off" v-model="redemptionAmount"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="redemptionDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="redemptionDialogVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -75,6 +47,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.queryData();
+  },
   methods: {
     computeTotal() {
       if (this.amount !== '') {
@@ -88,6 +63,7 @@ export default {
         this.amount = this.amount.toFixed(2);
       }
     },
+    queryData() {},
   },
 };
 </script>
