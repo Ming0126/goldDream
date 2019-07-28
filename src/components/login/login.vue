@@ -44,14 +44,14 @@
 <script>
 import fetch from '@/common/js/fetch.js';
 import vm from '@/common/js/bus.js';
+
 export default {
   name: 'login',
   data() {
     return {
       loginForm: {
-        username: '',
-        password: '',
-        test: 'kiddd',
+        username: '灿包',
+        password: '123456',
       },
     };
   },

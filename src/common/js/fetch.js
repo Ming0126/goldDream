@@ -17,7 +17,14 @@ const config = {
 let instance = axios.create(config);
 
 instance.interceptors.request.use(
-  config => {
+  data => {
+    console.log(data.url.slice(-5));
+    // if (data.url.slice(-5) !== 'login') {
+    //   if (!sessionStorage.getItem('userId')) {
+    //     console.log('to login');
+    //     window.location.href = 'http://localhost:9000/login';
+    //   }
+    // }
     NProgress.start();
     return config;
   },

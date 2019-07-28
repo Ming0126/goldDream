@@ -55,10 +55,16 @@ export default {
     };
   },
   mounted() {
+    this.queryData();
     this.initEchart();
     window.onresize = this.echart.resize;
   },
   methods: {
+    queryData() {
+      this.fetch.get('/queryProductInfo').then(res => {
+        console.log(res);
+      });
+    },
     goDetail(index, name) {
       this.$router.push({ path: '/detail', query: { num: index, name: name } });
     },
