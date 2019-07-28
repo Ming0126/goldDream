@@ -19,16 +19,26 @@
     <el-menu-item index="3" class="hidden-xs-only">
       <router-link to="position">我的持仓</router-link>
     </el-menu-item>
+    <el-menu-item index="3">
+      <router-link to="mall">黄金商城</router-link>
+    </el-menu-item>
     <el-menu-item index="4"></el-menu-item>
     <el-menu-item class="user">
       <el-submenu index="5" class="user-popup">
         <template slot="title">
           <i class="el-icon-user"></i>
         </template>
-        <el-menu-item index="5-1" style="width: 100px;">我的信息</el-menu-item>
-        <el-menu-item index="5-2" style="width: 100px;">我的收益</el-menu-item>
+        <el-menu-item index="5-1" style="width: 100px;">
+          <router-link to="userinfo" style="width: 100px;">我的信息</router-link>
+        </el-menu-item>
+        <el-menu-item index="5-2" style="width: 100px;">
+          <router-link to="profit" style="width: 100px;">我的收益</router-link>
+        </el-menu-item>
         <el-menu-item index="5-3">
           <router-link to="record" style="width: 100px;">交易记录</router-link>
+        </el-menu-item>
+        <el-menu-item index="5-4">
+          <router-link to="login" style="width: 100px;">用户注销</router-link>
         </el-menu-item>
       </el-submenu>
     </el-menu-item>
@@ -71,7 +81,7 @@ export default {
   }
   .el-menu-item {
     color: #fff;
-    font-size: 0.2rem;
+    font-size: 20px;
     .el-submenu__title {
       padding: 0px;
     }

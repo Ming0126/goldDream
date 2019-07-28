@@ -16,7 +16,7 @@ export default {
     Footer,
   },
   mounted() {
-    window.onresize = this.pageAdapt;
+    window.addEventListener('resize', this.pageAdapt);
   },
   methods: {
     pageAdapt() {

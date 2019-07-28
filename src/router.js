@@ -32,6 +32,21 @@ export default new Router({
       name: 'record',
       component: () => import('./components/record/record'),
     },
+    {
+      path: '/profit',
+      name: 'profit',
+      component: () => import('./components/profit/profit'),
+    },
+    {
+      path: '/userinfo',
+      name: 'userinfo',
+      component: () => import('./components/userinfo/userinfo'),
+    },
+    {
+      path: '/mall',
+      name: 'mall',
+      component: () => import('./components/mall/mall'),
+    },
     { path: '*', redirect: '/' },
   ],
 });
